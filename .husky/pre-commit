@@ -1,0 +1,12 @@
+#!/bin/sh
+# Scan staged changes for leaked credentials with betterleaks.
+if ! command -v betterleaks >/dev/null 2>&1; then
+  echo "betterleaks is not installed. Install it with: brew install betterleaks" >&2
+  exit 1
+fi
+if ! betterleaks git --staged --no-banner --redact .; then
+  echo "" >&2
+  echo "Commit blocked: betterleaks found a possible secret in the staged changes." >&2
+  echo "Remove the secret, or add a betterleaks:allow comment on the line if it is a false positive, then stage again." >&2
+  exit 1
+fi

@@ -46,6 +46,18 @@ and build output (`dist`, `dist-*`, built-in extensions), packaged desktop
 builds in `packages/electron/dist` included. Then run `bun install` again. Add
 `-- --dry-run` to see the list without deleting anything.
 
+## Pre-commit Hook
+
+`bun install` installs the Git hooks through Husky. Before each commit, the hook in
+`.husky/pre-commit` runs betterleaks over the staged changes and blocks the commit
+when it finds a possible credential.
+
+Install the scanner once: `brew install betterleaks`, or
+`go install github.com/betterleaks/betterleaks/v2@latest`.
+
+If betterleaks flags a value that is not a secret, put a `betterleaks:allow` comment
+on that line and stage the file again.
+
 ## Dev Scripts
 
 Run commands from the project root unless a section says otherwise.
